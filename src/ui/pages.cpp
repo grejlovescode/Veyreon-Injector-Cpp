@@ -20,7 +20,6 @@ void DrawDllList(ImDrawList* dl, ImVec2 a, ImVec2 b, Scroll& scroll) {
 
     int remove = -1;
     dl->PushClipRect(ia, ib, true);
-    ImGui::PushClipRect(ia, ib, true);
     for (int i = 0; i < (int)g_dlls.size(); i++) {
         float y = ia.y + itemH * i - scroll.cur;
         if (y + itemH < ia.y || y > ib.y) continue;
@@ -28,10 +27,12 @@ void DrawDllList(ImDrawList* dl, ImVec2 a, ImVec2 b, Scroll& scroll) {
         float cy = (ra.y + rb.y) * 0.5f;
         ImGui::PushID(i);
 
-        bool xClicked = IconButton(dl, "##x", ImVec2(rb.x - D(22), cy), icon::Close);
-        bool xHovered = ImGui::IsItemHovered();
-        bool hovered;
-        if (Hit("##row", ra, ImVec2(rb.x - D(40), rb.y), &hovered)) g_selDll = i;
+        bool xClicked = false, xHovered = false, hovered = false;
+        if (ImGui::IsMouseHoveringRect(ia, ib, false)) {
+            xClicked = IconButton(dl, "##x", ImVec2(rb.x - D(22), cy), icon::Close);
+            xHovered = ImGui::IsItemHovered();
+            if (Hit("##row", ra, ImVec2(rb.x - D(40), rb.y), &hovered)) g_selDll = i;
+        }
         if (xClicked) remove = i;
 
         bool sel = g_selDll == i;
@@ -47,7 +48,6 @@ void DrawDllList(ImDrawList* dl, ImVec2 a, ImVec2 b, Scroll& scroll) {
         Icon(dl, fIconSmall, icon::Close, ImVec2(rb.x - D(22), cy), White(xHovered ? 0.95f : 0.35f));
         ImGui::PopID();
     }
-    ImGui::PopClipRect();
     dl->PopClipRect();
     RemoveDll(remove);
 }
