@@ -1,0 +1,9 @@
+build/
+bin/
+config.ini
+.vs/
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+out/
