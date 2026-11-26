@@ -63,3 +63,4 @@ The auto-inject option is stored in the config but not implemented yet.
     |-- gfx/            embedded fonts
     `-- ui/             draw, widgets, pages, chrome, actions
 ```
+ 
