@@ -71,7 +71,8 @@ void AddDlls() {
     ofn.lpstrFile   = fileBuf;
     ofn.nMaxFile    = 4096;
     ofn.Flags       = OFN_FILEMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_EXPLORER;
-    if (!GetOpenFileNameW(&ofn)) return;
+    if (!GetOpenFileNameW(&ofn)) { SetForegroundWindow(g_hwnd); return; }
+    SetForegroundWindow(g_hwnd);
 
     auto add = [](const std::wstring& path) {
         if (std::find(g_dlls.begin(), g_dlls.end(), path) == g_dlls.end())
